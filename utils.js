@@ -50,11 +50,36 @@ export function compareHashDesc(a, b) {
   }
 }
 
+function format(str) {
+  try {
+    return /\]\s(.*?)\s?\n?\[/gs.exec(str)[1];
+  } catch (error) {
+    return str;
+  }
+}
+
+export function queryRutracker(title, magnets) {
+  for (const magnet of magnets) {
+    const fProp = format(magnet.title.toLowerCase());
+    const sProp = title.toLowerCase();
+
+    if (lev(fProp, sProp) < 5) {
+      return magnet.magnet;
+    }
+  }
+  return "";
+}
+
 export function query(query, inProp, outProp, array, koef = 5) {
   for (const arrEl of array) {
-    if (lev(arrEl[inProp], query) < koef) {
-      return arrEl[outProp];
-    }
+    const fProp = arrEl[inProp].toLowerCase();
+    const sProp = query.toLowerCase();
+
+    try {
+      if (lev(format(fProp), sProp) < koef) {
+        return arrEl[outProp];
+      }
+    } catch (error) {}
   }
   return "";
 }

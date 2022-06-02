@@ -1,4 +1,9 @@
-import { readJson, writeJson, compareDateDesc, query } from "./utils.js";
+import {
+  readJson,
+  writeJson,
+  compareDateDesc,
+  queryRutracker,
+} from "./utils.js";
 
 const TITLES_PATH = "third-party/titles.json";
 const VERSIONS_PATH = "third-party/versions.json";
@@ -23,7 +28,7 @@ for (const key in titles) {
       banner: `https://tinfoil.media/thi/${title.id}/485/273/`,
       altBanner: title.bannerUrl,
       date: title.releaseDate,
-      hash: query(title.name, "title", "hash", rutracker, 2),
+      hash: queryRutracker(title.name, rutracker),
     };
 
     nxdb.push(nxdbObject);
